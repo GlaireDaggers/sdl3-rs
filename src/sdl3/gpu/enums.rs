@@ -370,6 +370,7 @@ pub enum BufferUsageFlags {
     ComputeStorageRead = sys::gpu::SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ as u32,
     ComputeStorageWrite = sys::gpu::SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE as u32,
 }
+impl_with!(bitwise_and_or BufferUsageFlags u32);
 
 #[derive(Default, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 #[repr(u32)]
