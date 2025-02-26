@@ -357,7 +357,7 @@ impl ComputePass {
     }
 
     #[doc(alias = "SDL_BindGPUComputeStorageBuffers")]
-    pub fn bind_compute_storage_buffers(&self, first_slot: u32, storage_buffers: &[Buffer]) {
+    pub fn bind_compute_storage_buffers(&self, first_slot: u32, storage_buffers: &[&Buffer]) {
         let buffer_handles = storage_buffers.iter().map(|x| x.raw()).collect::<Vec<_>>();
         unsafe {
             sys::gpu::SDL_BindGPUComputeStorageBuffers(
@@ -370,7 +370,7 @@ impl ComputePass {
     }
 
     #[doc(alias = "SDL_BindGPUComputeStorageTextures")]
-    pub fn bind_compute_storage_textures(&self, first_slot: u32, storage_textures: &[Texture]) {
+    pub fn bind_compute_storage_textures(&self, first_slot: u32, storage_textures: &[&Texture]) {
         let texture_handles = storage_textures.iter().map(|x| x.raw()).collect::<Vec<_>>();
         unsafe {
             sys::gpu::SDL_BindGPUComputeStorageTextures(
