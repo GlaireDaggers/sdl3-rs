@@ -117,7 +117,7 @@ impl CommandBuffer {
     }
 
     #[doc(alias = "SDL_BlitGPUTexture")]
-    pub fn blit_texture<'a>(&'a mut self, blit_info: &BlitInfo) {
+    pub fn blit_texture<'a>(&'a self, blit_info: &BlitInfo) {
         unsafe {
             sys::gpu::SDL_BlitGPUTexture(self.inner, &blit_info.inner);
         }
