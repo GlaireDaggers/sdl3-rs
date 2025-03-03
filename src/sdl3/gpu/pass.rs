@@ -8,7 +8,13 @@ use crate::{
     Error,
 };
 use sys::gpu::{
-    SDL_AcquireGPUSwapchainTexture, SDL_BindGPUFragmentSamplers, SDL_BindGPUIndexBuffer, SDL_BindGPUVertexBuffers, SDL_DrawGPUIndexedPrimitives, SDL_GPUBlitInfo, SDL_GPUBufferBinding, SDL_GPUColorTargetInfo, SDL_GPUCommandBuffer, SDL_GPUComputePass, SDL_GPUCopyPass, SDL_GPUDepthStencilTargetInfo, SDL_GPUFilter, SDL_GPUIndexElementSize, SDL_GPULoadOp, SDL_GPURenderPass, SDL_GPUStoreOp, SDL_GPUTextureSamplerBinding, SDL_PushGPUComputeUniformData, SDL_PushGPUFragmentUniformData, SDL_PushGPUVertexUniformData, SDL_UploadToGPUBuffer, SDL_UploadToGPUTexture, SDL_WaitAndAcquireGPUSwapchainTexture
+    SDL_AcquireGPUSwapchainTexture, SDL_BindGPUFragmentSamplers, SDL_BindGPUIndexBuffer,
+    SDL_BindGPUVertexBuffers, SDL_DrawGPUIndexedPrimitives, SDL_GPUBlitInfo, SDL_GPUBufferBinding,
+    SDL_GPUColorTargetInfo, SDL_GPUCommandBuffer, SDL_GPUComputePass, SDL_GPUCopyPass,
+    SDL_GPUDepthStencilTargetInfo, SDL_GPUFilter, SDL_GPUIndexElementSize, SDL_GPULoadOp,
+    SDL_GPURenderPass, SDL_GPUStoreOp, SDL_GPUTextureSamplerBinding, SDL_PushGPUComputeUniformData,
+    SDL_PushGPUFragmentUniformData, SDL_PushGPUVertexUniformData, SDL_UploadToGPUBuffer,
+    SDL_UploadToGPUTexture, SDL_WaitAndAcquireGPUSwapchainTexture,
 };
 
 use super::{Buffer, ComputePipeline, Filter};
@@ -111,10 +117,7 @@ impl CommandBuffer {
     }
 
     #[doc(alias = "SDL_BlitGPUTexture")]
-    pub fn blit_texture<'a>(
-        &'a mut self,
-        blit_info: &BlitInfo
-    ) {
+    pub fn blit_texture<'a>(&'a mut self, blit_info: &BlitInfo) {
         unsafe {
             sys::gpu::SDL_BlitGPUTexture(self.inner, &blit_info.inner);
         }
@@ -229,13 +232,20 @@ impl BlitInfo {
         self.inner.source.texture = texture.raw();
         self
     }
-    
+
     pub fn with_source_mip(mut self, mip_level: u32) -> Self {
         self.inner.source.mip_level = mip_level;
         self
     }
 
-    pub fn with_source_region(mut self, layer_or_depth: u32, x: u32, y: u32, width: u32, height: u32) -> Self {
+    pub fn with_source_region(
+        mut self,
+        layer_or_depth: u32,
+        x: u32,
+        y: u32,
+        width: u32,
+        height: u32,
+    ) -> Self {
         self.inner.source.layer_or_depth_plane = layer_or_depth;
         self.inner.source.x = x;
         self.inner.source.y = y;
@@ -248,13 +258,20 @@ impl BlitInfo {
         self.inner.destination.texture = texture.raw();
         self
     }
-    
+
     pub fn with_destination_mip(mut self, mip_level: u32) -> Self {
         self.inner.destination.mip_level = mip_level;
         self
     }
 
-    pub fn with_destination_region(mut self, layer_or_depth: u32, x: u32, y: u32, width: u32, height: u32) -> Self {
+    pub fn with_destination_region(
+        mut self,
+        layer_or_depth: u32,
+        x: u32,
+        y: u32,
+        width: u32,
+        height: u32,
+    ) -> Self {
         self.inner.destination.layer_or_depth_plane = layer_or_depth;
         self.inner.destination.x = x;
         self.inner.destination.y = y;
