@@ -70,7 +70,7 @@ impl CommandBuffer {
 
     #[doc(alias = "SDL_WaitAndAcquireGPUSwapchainTexture")]
     pub fn wait_and_acquire_swapchain_texture<'a>(
-        &'a mut self,
+        &'a self,
         w: &crate::video::Window,
     ) -> Result<Texture<'a>, Error> {
         let mut swapchain = std::ptr::null_mut();
@@ -94,7 +94,7 @@ impl CommandBuffer {
 
     #[doc(alias = "SDL_AcquireGPUSwapchainTexture")]
     pub fn acquire_swapchain_texture<'a>(
-        &'a mut self,
+        &'a self,
         w: &crate::video::Window,
     ) -> Result<Texture<'a>, Error> {
         let mut swapchain = std::ptr::null_mut();
