@@ -16,7 +16,9 @@ use sys::gpu::{
 };
 
 use super::{
-    pass::Fence, pipeline::{StorageBufferReadWriteBinding, StorageTextureReadWriteBinding}, ComputePass, ComputePipelineBuilder
+    pass::Fence,
+    pipeline::{StorageBufferReadWriteBinding, StorageTextureReadWriteBinding},
+    ComputePass, ComputePipelineBuilder,
 };
 
 /// Manages the raw `SDL_GPUDevice` pointer and releases it on drop
@@ -222,10 +224,14 @@ impl Device {
     pub fn wait_fences(&self, wait_all: bool, fences: &[Fence]) -> Result<(), Error> {
         let fences: Vec<_> = fences.iter().map(|x| x.raw()).collect();
         unsafe {
-            if !sys::gpu::SDL_WaitForGPUFences(self.raw(), wait_all, fences.as_ptr(), fences.len() as u32) {
+            if !sys::gpu::SDL_WaitForGPUFences(
+                self.raw(),
+                wait_all,
+                fences.as_ptr(),
+                fences.len() as u32,
+            ) {
                 Err(get_error())
-            }
-            else {
+            } else {
                 Ok(())
             }
         }

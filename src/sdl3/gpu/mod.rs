@@ -19,7 +19,7 @@ pub use enums::{
 
 mod pass;
 pub use pass::{
-    BlitInfo, ColorTargetInfo, CommandBuffer, ComputePass, CopyPass, DepthStencilTargetInfo,
+    BlitInfo, ColorTargetInfo, CommandBuffer, ComputePass, CopyPass, DepthStencilTargetInfo, Fence,
     RenderPass,
 };
 

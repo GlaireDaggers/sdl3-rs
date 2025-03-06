@@ -10,7 +10,14 @@ use crate::{
     Error,
 };
 use sys::gpu::{
-    SDL_AcquireGPUSwapchainTexture, SDL_BindGPUFragmentSamplers, SDL_BindGPUIndexBuffer, SDL_BindGPUVertexBuffers, SDL_DrawGPUIndexedPrimitives, SDL_GPUBlitInfo, SDL_GPUBufferBinding, SDL_GPUColorTargetInfo, SDL_GPUCommandBuffer, SDL_GPUComputePass, SDL_GPUCopyPass, SDL_GPUDepthStencilTargetInfo, SDL_GPUFence, SDL_GPUFilter, SDL_GPUIndexElementSize, SDL_GPULoadOp, SDL_GPURenderPass, SDL_GPUStoreOp, SDL_GPUTextureSamplerBinding, SDL_PushGPUComputeUniformData, SDL_PushGPUFragmentUniformData, SDL_PushGPUVertexUniformData, SDL_QueryGPUFence, SDL_ReleaseGPUFence, SDL_UploadToGPUBuffer, SDL_UploadToGPUTexture, SDL_WaitAndAcquireGPUSwapchainTexture, SDL_WaitForGPUFences
+    SDL_AcquireGPUSwapchainTexture, SDL_BindGPUFragmentSamplers, SDL_BindGPUIndexBuffer,
+    SDL_BindGPUVertexBuffers, SDL_DrawGPUIndexedPrimitives, SDL_GPUBlitInfo, SDL_GPUBufferBinding,
+    SDL_GPUColorTargetInfo, SDL_GPUCommandBuffer, SDL_GPUComputePass, SDL_GPUCopyPass,
+    SDL_GPUDepthStencilTargetInfo, SDL_GPUFence, SDL_GPUFilter, SDL_GPUIndexElementSize,
+    SDL_GPULoadOp, SDL_GPURenderPass, SDL_GPUStoreOp, SDL_GPUTextureSamplerBinding,
+    SDL_PushGPUComputeUniformData, SDL_PushGPUFragmentUniformData, SDL_PushGPUVertexUniformData,
+    SDL_QueryGPUFence, SDL_ReleaseGPUFence, SDL_UploadToGPUBuffer, SDL_UploadToGPUTexture,
+    SDL_WaitAndAcquireGPUSwapchainTexture,
 };
 
 use super::{Buffer, ComputePipeline, Device, Filter, WeakDevice};
@@ -33,10 +40,12 @@ pub struct Fence {
 }
 impl Fence {
     pub(super) fn new(device: &Device, raw_fence: *mut SDL_GPUFence) -> Self {
-        Self { inner: Arc::new(FenceContainer {
-            raw: raw_fence,
-            device: device.weak()
-        } ) }
+        Self {
+            inner: Arc::new(FenceContainer {
+                raw: raw_fence,
+                device: device.weak(),
+            }),
+        }
     }
 
     #[inline]
@@ -46,9 +55,7 @@ impl Fence {
 
     #[doc(alias = "SDL_QueryGPUFence")]
     pub fn query(&self, device: &Device) -> bool {
-        unsafe {
-            SDL_QueryGPUFence(device.raw(), self.inner.raw)
-        }
+        unsafe { SDL_QueryGPUFence(device.raw(), self.inner.raw) }
     }
 }
 
@@ -170,8 +177,7 @@ impl CommandBuffer {
         let fence_raw = unsafe { sys::gpu::SDL_SubmitGPUCommandBufferAndAcquireFence(self.inner) };
         if fence_raw.is_null() {
             Err(get_error())
-        }
-        else {
+        } else {
             Ok(Fence::new(device, fence_raw))
         }
     }
